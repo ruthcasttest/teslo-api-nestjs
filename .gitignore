@@ -2,8 +2,21 @@
 /dist
 /node_modules
 /build
-postgres/
-postgres_data/
+
+# PostgreSQL data and configuration files
+/postgres
+/postgres_data
+/postgis_data
+*.pid
+*.conf
+*.log
+pg_hba.conf
+postgresql.conf
+pg_ident.conf
+recovery.conf
+*.backup
+*.sql
+
 .env
 
 # Logs
