@@ -16,6 +16,8 @@ pg_ident.conf
 recovery.conf
 *.backup
 *.sql
+*_tmp
+*_tmp/
 
 .env
 
