@@ -21,14 +21,13 @@ export class ProductController {
 
   @Get(':term')
   findOne(@Param('term') term: string) {
-    return this.productService.findOne(term);
+    return this.productService.findOnePlain(term);
   }
 
   @Patch(':id')
   update(
     @Param('id', new ParseUUIDPipe( { version: '4' } )) id: string, 
-    @Body() updateProductDto: UpdateProductDto
-  ) {
+    @Body() updateProductDto: UpdateProductDto) {
     return this.productService.update(id, updateProductDto);
   }
 

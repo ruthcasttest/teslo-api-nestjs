@@ -16,4 +16,8 @@ yarn install
 ```
 docker-compose up -d
 ```
-6. Levantar en modo desarrollo yarn start:dev# teslo-api-nestjs
+6. Ejecuter SEED 
+```
+http://localhost:3000/api/seed
+```
+7. Levantar en modo desarrollo yarn start:dev# teslo-api-nestjs
