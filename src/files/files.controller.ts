@@ -1,12 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInterceptors, BadRequestException, Res } from '@nestjs/common';
-import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { fileFilter, fileNamer } from './helpers';
-import { diskStorage } from 'multer';
 import type { Response } from 'express';
+import { diskStorage } from 'multer';
 import { ConfigService } from '@nestjs/config';
+import { ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+import { FilesService } from './files.service';
+import { fileFilter, fileNamer } from './helpers';
 
+@ApiTags('Files')
 @Controller('files')
 export class FilesController {
   constructor(
@@ -15,6 +17,11 @@ export class FilesController {
   ) {}
 
   @Get('product/:imageName')
+  @ApiOperation({ summary: 'Get product image by filename' })
+  @ApiResponse({ status: 200, description: 'Image retrieved successfully.' })
+  @ApiResponse({ status: 400, description: 'Bad Request. Invalid image name.' })
+  @ApiResponse({ status: 404, description: 'Image not found.' })
+  @ApiResponse({ status: 500, description: 'Internal server error.' })
   findProductImage(
     @Res() res: Response,
     @Param('imageName') imageName: string
@@ -32,6 +39,11 @@ export class FilesController {
   }
 
   @Post('product')
+  @ApiOperation({ summary: 'Upload a product image' })
+  @ApiConsumes('multipart/form-data')
+  @ApiResponse({ status: 201, description: 'Image uploaded successfully. Returns secure URL.' })
+  @ApiResponse({ status: 400, description: 'Bad Request. File not provided or invalid file type.' })
+  @ApiResponse({ status: 500, description: 'Internal server error.' })
   @UseInterceptors(FileInterceptor('file', {
     fileFilter: fileFilter,
     // limits: { fileSize: 1024 * 1024 * 5 } // 5MB
